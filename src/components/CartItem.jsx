@@ -1,4 +1,10 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faCirclePlus,
+	faCircleMinus,
+	faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default class CartItem extends Component {
 	render() {
@@ -11,7 +17,21 @@ export default class CartItem extends Component {
 					<div style={{ fontSize: 25 }}>Product: Phone</div>
 					<div style={{ color: "#777" }}>Price: Rs.999</div>
 					<div style={{ color: "#777" }}>Quantity: 1</div>
-					<div className="cart-item-actions">{/* Buttons */}</div>
+					<div className="cart-item-actions">
+						<FontAwesomeIcon
+							icon={faCirclePlus}
+							className="action-icons"
+						/>
+						<FontAwesomeIcon
+							icon={faCircleMinus}
+							className="action-icons"
+						/>
+						<FontAwesomeIcon
+							icon={faTrashCan}
+							className="action-icons"
+						/>
+						{/* Buttons */}
+					</div>
 				</div>
 			</div>
 		);
