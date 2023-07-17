@@ -7,136 +7,50 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default class CartItem extends Component {
-	constructor() {
-		super();
-		this.testing1();
-		this.testing2();
-	}
-	testing1 = () => {
-		// Inside Event Handler Functions //
-		/**
-			@StateObject - It doesn't re-render. // (State {qty: 1})
-			this.state.qty += 10;
-			console.log("State Object", this.state);
-
-			Output:
-			State Object {price: 999, title: "Mobile Phone", qty: 11, img: ""}
-			Render
-		**/
-		/**
-			@Form1 - Re-Renders Only Once, Asynchronous Nature, Value of Last Call Only 
-			this.setState({ qty: this.state.qty + 1 });
-			this.setState({ qty: this.state.qty + 2 });
-			this.setState({ qty: this.state.qty + 3 }); // (1) + 3 = 4 (State {qty: 4})
-			console.log("State Object", this.state);
-			
-			Output:
-			Render
-			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
-			Render
-		 **/
-		/**
-			@Form2 - Re-Renders Only Once, Asynchronous Nature, Value of All Calls Combined
-			this.setState((prev) => { return { qty: prev.qty + 1 }; });
-			this.setState((prev) => { return { qty: prev.qty + 2 }; });
-			this.setState((prev) => { return { qty: prev.qty + 3 }; }); // (1) + 1 + 2 + 3 = 7 (State {qty: 7})
-			console.log("State Object", this.state);
-			
-			Output:
-			Render
-			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
-			Render
-		**/
-	};
-	testing2 = () => {
-		// Inside Promises & AJAX //
-		/**
-			@Form1 - Re-Renders Only Once, Asynchronous Nature, Value of Last Call Only 
-			const promise = new Promise((resolve, reject) => {
-				setTimeout(() => { resolve("done"); }, 5000);
-			});
-			promise.then(() => {
-				this.setState({ qty: this.state.qty + 10 });
-				this.setState({ qty: this.state.qty + 10 });
-				this.setState({ qty: this.state.qty + 10 }); // (1) + 10 = 11 (State {qty: 11})
-				console.log("State Object", this.state);
-			});
-
-			Output:
-			Render
-			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
-			Render
-		 **/
-		/**
-			@Form2 - Re-Renders Only Once, Asynchronous Nature, Value of All Calls Combined
-			const promise = new Promise((resolve, reject) => {
-				setTimeout(() => {
-					resolve("done");
-				}, 5000);
-			});
-
-			promise.then(() => {
-				this.setState((prev) => { return { qty: prev.qty + 1 }; });
-				this.setState((prev) => { return { qty: prev.qty + 2 }; });
-				this.setState((prev) => { return { qty: prev.qty + 3 }; }); // (1) + 1 + 2 + 3 = 7 (State {qty: 1})
-				console.log("State Object", this.state);
-			});
-			
-			Output:
-			Render
-			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
-			Render
-		**/
-	};
-	increaseQuantity = () => {
-		this.setState((prev) => {
-			return { qty: prev.qty + 1 };
-		});
-	};
-	decreaseQuantity = () => {
-		const { qty } = this.state;
-		if (qty === 0) return;
-		this.setState((prev) => {
-			return { qty: prev.qty - 1 };
-		});
-	};
-	deleteProduct = () => {};
 	render() {
-		const { title, quantity, image, price, category } = this.props.product;
+		const { id, title, quantity, image, price, category } = this.props.product;
+		const { increaseQuantity, decreaseQuantity, deleteProduct } = this.props;
 		return (
 			<div className="cart-item">
 				<div className="left-block">
 					<img style={styles.image} src={image} alt="" />
 				</div>
 				<div className="right-block">
-					<div className="title" style={{ fontSize: 25 }}>
+					<div className="title" style={{ ...styles.font1, fontSize: 25 }}>
 						{title}
 					</div>
-					<div className="category" style={{ color: "#777" }}>
+					<div
+						className="category"
+						style={{ ...styles.font2, color: "#000000" }}
+					>
 						Category: {category}
 					</div>
-					<div style={{ color: "#777" }}>
+					<div style={{ ...styles.font2, color: "#000000" }}>
 						Price:{" "}
 						{new Intl.NumberFormat("en-IN", {
 							currency: "INR",
 							style: "currency",
 						}).format(price)}
 					</div>
-					<div style={{ color: "#777" }}>Quantity: {quantity}</div>
+					<div style={{ ...styles.font2, color: "#000000" }}>
+						Quantity: {quantity}
+					</div>
 					<div className="cart-item-actions">
 						<FontAwesomeIcon
 							icon={faCirclePlus}
-							onClick={this.increaseQuantity}
+							onClick={() => increaseQuantity(id)}
 							className="action-icons"
 						/>
 						<FontAwesomeIcon
 							icon={faCircleMinus}
-							onClick={this.decreaseQuantity}
-							className="action-icons"
+							onClick={() => decreaseQuantity(id)}
+							className={`action-icons ${
+								quantity === 0 ? "shake" : ""
+							}`}
 						/>
 						<FontAwesomeIcon
 							icon={faTrashCan}
-							onClick={this.deleteProduct}
+							onClick={() => deleteProduct(id)}
 							className="action-icons"
 						/>
 						{/* Buttons */}
@@ -151,10 +65,18 @@ const styles = {
 	image: {
 		height: 110,
 		width: 170,
-		borderRadius: 5,
+		borderRadius: 10,
 		background: "white",
 		margin: "auto",
 		objectFit: "contain",
 		objectPosition: "center",
+	},
+	font1: {
+		fontWeight: 600,
+		fontFamily: "var(--font1)",
+	},
+	font2: {
+		fontWeight: 500,
+		fontFamily: "var(--font2)",
 	},
 };

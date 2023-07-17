@@ -1,16 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;1,100;1,200&family=Roboto:wght@300;400;500;700&display=swap");
 
 :root {
-	font-family: "Montserrat", sans-serif;
-	font-family: "Open Sans", sans-serif;
-	font-family: "Poppins", sans-serif;
+	/* font-family: "Montserrat", sans-serif; */
+	/* font-family: "Open Sans", sans-serif; */
+	/* font-family: "Poppins", sans-serif; */
 	font-family: "Roboto", sans-serif;
+	--heading: "Roboto", sans-serif;
+	--font1: "Poppins", sans-serif;
+	--font2: "Open Sans", sans-serif;
 }
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
 	scroll-behavior: smooth;
 	overflow-wrap: break-word;
 }
@@ -24,11 +31,13 @@ body {
 .cart-item {
 	display: inline-flex;
 	margin: 20px 10px;
+	padding: 15px;
+	border-radius: 10px;
 }
 .cart-item .right-block {
 	padding: 0 20px;
 	.category {
-		margin-top: 7px;
+		margin-top: 5px;
 	}
 }
 .cart-item .left-block {
@@ -43,11 +52,11 @@ body {
 	object-position: center;
 }
 .cart-item-actions {
-	margin-top: 15px;
+	margin-top: 10px;
 }
 .action-icons {
-	height: 23px;
-	width: 23px;
+	height: 22px;
+	width: 22px;
 	margin-right: 10px;
 }
 .action-icons:hover {
@@ -58,4 +67,32 @@ body {
 .cart {
 	display: flex;
 	flex-direction: column;
+}
+
+.shake {
+	animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+	transform: translate3d(0, 0, 0);
+	perspective: 1000px;
+}
+@keyframes shake {
+	10%,
+	90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+
+	20%,
+	80% {
+		transform: translate3d(2px, 0, 0);
+	}
+
+	30%,
+	50%,
+	70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+
+	40%,
+	60% {
+		transform: translate3d(4px, 0, 0);
+	}
 }

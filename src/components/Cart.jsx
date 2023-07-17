@@ -89,13 +89,125 @@ export default class Cart extends Component {
 				},
 			],
 		};
+		this.testing1();
+		this.testing2();
+		this.testing3();
 	}
+	testing1 = () => {
+		// Inside Event Handler Functions //
+		/**
+			@StateObject - It doesn't re-render. // (State {qty: 1})
+			this.state.qty += 10;
+			console.log("State Object", this.state);
+
+			Output:
+			State Object {price: 999, title: "Mobile Phone", qty: 11, img: ""}
+			Render
+		**/
+		/**
+			@Form1 - Re-Renders Only Once, Asynchronous Nature, Value of Last Call Only 
+			this.setState({ qty: this.state.qty + 1 });
+			this.setState({ qty: this.state.qty + 2 });
+			this.setState({ qty: this.state.qty + 3 }); // (1) + 3 = 4 (State {qty: 4})
+			console.log("State Object", this.state);
+			
+			Output:
+			Render
+			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
+			Render
+		 **/
+		/**
+			@Form2 - Re-Renders Only Once, Asynchronous Nature, Value of All Calls Combined
+			this.setState((prev) => { return { qty: prev.qty + 1 }; });
+			this.setState((prev) => { return { qty: prev.qty + 2 }; });
+			this.setState((prev) => { return { qty: prev.qty + 3 }; }); // (1) + 1 + 2 + 3 = 7 (State {qty: 7})
+			console.log("State Object", this.state);
+			
+			Output:
+			Render
+			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
+			Render
+		**/
+	};
+	testing2 = () => {
+		// Inside Promises & AJAX //
+		/**
+			@Form1 - Re-Renders Only Once, Asynchronous Nature, Value of Last Call Only 
+			const promise = new Promise((resolve, reject) => {
+				setTimeout(() => { resolve("done"); }, 5000);
+			});
+			promise.then(() => {
+				this.setState({ qty: this.state.qty + 10 });
+				this.setState({ qty: this.state.qty + 10 });
+				this.setState({ qty: this.state.qty + 10 }); // (1) + 10 = 11 (State {qty: 11})
+				console.log("State Object", this.state);
+			});
+
+			Output:
+			Render
+			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
+			Render
+		 **/
+		/**
+			@Form2 - Re-Renders Only Once, Asynchronous Nature, Value of All Calls Combined
+			const promise = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve("done");
+				}, 5000);
+			});
+
+			promise.then(() => {
+				this.setState((prev) => { return { qty: prev.qty + 1 }; });
+				this.setState((prev) => { return { qty: prev.qty + 2 }; });
+				this.setState((prev) => { return { qty: prev.qty + 3 }; }); // (1) + 1 + 2 + 3 = 7 (State {qty: 1})
+				console.log("State Object", this.state);
+			});
+			
+			Output:
+			Render
+			State Object {price: 999, title: "Mobile Phone", qty: 1, img: ""}
+			Render
+		**/
+	};
+	testing3 = () => {
+		/**
+			Executes the @callback just after the re-render/state-update with the updated state 
+			* this.setState({ qty: this.state.qty + 1 }, () => console.log(this.state));
+			* this.setState((prev) => {return {qty: prev.qty + 1}}, () => console.log(this.state));
+		**/
+	};
+	increaseQuantity = (id) => {
+		const products = this.state.products.map((product) => {
+			if (product.id === id) product.quantity += 1;
+			return product;
+		});
+		this.setState({ products });
+	};
+	decreaseQuantity = (id) => {
+		let render = true;
+		const products = this.state.products.map((product) => {
+			if (product.id === id) {
+				if (product.quantity > 0) product.quantity -= 1;
+				else render = false;
+			}
+			return product;
+		});
+		if (render) this.setState({ products });
+	};
+	deleteProduct = () => {};
 	render() {
-		const { products } = this.state;
+		const { products, shake } = this.state;
 		return (
 			<div className="cart">
 				{products.map((product) => (
-					<CartItem key={product.id} product={product} />
+					<CartItem
+						key={product.id}
+						product={product}
+						increaseQuantity={this.increaseQuantity}
+						decreaseQuantity={this.decreaseQuantity}
+						deleteProduct={this.deleteProduct}
+						shake={shake}
+					/>
 				))}
 			</div>
 		);
