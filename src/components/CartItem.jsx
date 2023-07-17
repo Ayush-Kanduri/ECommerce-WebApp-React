@@ -9,12 +9,6 @@ import {
 export default class CartItem extends Component {
 	constructor() {
 		super();
-		this.state = {
-			price: 999,
-			title: "Mobile Phone",
-			qty: 1,
-			img: "",
-		};
 		this.testing1();
 		this.testing2();
 	}
@@ -108,17 +102,27 @@ export default class CartItem extends Component {
 	};
 	deleteProduct = () => {};
 	render() {
-		const { title, qty, img, price } = this.state;
-		console.log("Render");
+		const { title, quantity, image, price, category } = this.props.product;
 		return (
 			<div className="cart-item">
 				<div className="left-block">
-					<img style={styles.image} src={img} alt="" />
+					<img style={styles.image} src={image} alt="" />
 				</div>
 				<div className="right-block">
-					<div style={{ fontSize: 25 }}>Product: {title}</div>
-					<div style={{ color: "#777" }}>Price: Rs.{price}</div>
-					<div style={{ color: "#777" }}>Quantity: {qty}</div>
+					<div className="title" style={{ fontSize: 25 }}>
+						{title}
+					</div>
+					<div className="category" style={{ color: "#777" }}>
+						Category: {category}
+					</div>
+					<div style={{ color: "#777" }}>
+						Price:{" "}
+						{new Intl.NumberFormat("en-IN", {
+							currency: "INR",
+							style: "currency",
+						}).format(price)}
+					</div>
+					<div style={{ color: "#777" }}>Quantity: {quantity}</div>
 					<div className="cart-item-actions">
 						<FontAwesomeIcon
 							icon={faCirclePlus}
@@ -146,8 +150,11 @@ export default class CartItem extends Component {
 const styles = {
 	image: {
 		height: 110,
-		width: 110,
-		borderRadius: 4,
-		background: "#ccc",
+		width: 170,
+		borderRadius: 5,
+		background: "white",
+		margin: "auto",
+		objectFit: "contain",
+		objectPosition: "center",
 	},
 };
