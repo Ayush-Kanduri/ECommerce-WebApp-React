@@ -1,65 +1,57 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faCirclePlus,
-	faCircleMinus,
-	faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
-
-export default class CartItem extends Component {
-	render() {
-		const { id, title, quantity, image, price, category } = this.props.product;
-		const { increaseQuantity, decreaseQuantity, deleteProduct } = this.props;
-		return (
-			<div className="cart-item">
-				<div className="left-block">
-					<img style={styles.image} src={image} alt="" />
+const CartItem = (props) => {
+	const { products, product } = props;
+	const { id, title, quantity, image, price, category } = product;
+	const { increaseQuantity, decreaseQuantity, deleteProduct, setProducts } = props;
+	const { faCirclePlus, faCircleMinus, faTrashCan, FontAwesomeIcon } = props.icons;
+	return (
+		<div className="cart-item">
+			<div className="left-block">
+				<img style={styles.image} src={image} alt="" />
+			</div>
+			<div className="right-block">
+				<div className="title" style={{ ...styles.font1, fontSize: 25 }}>
+					{title}
 				</div>
-				<div className="right-block">
-					<div className="title" style={{ ...styles.font1, fontSize: 25 }}>
-						{title}
-					</div>
-					<div
-						className="category"
-						style={{ ...styles.font2, color: "#000000" }}
-					>
-						Category: {category}
-					</div>
-					<div style={{ ...styles.font2, color: "#000000" }}>
-						Price:{" "}
-						{new Intl.NumberFormat("en-IN", {
-							currency: "INR",
-							style: "currency",
-						}).format(price)}
-					</div>
-					<div style={{ ...styles.font2, color: "#000000" }}>
-						Quantity: {quantity}
-					</div>
-					<div className="cart-item-actions">
-						<FontAwesomeIcon
-							icon={faCirclePlus}
-							onClick={() => increaseQuantity(id)}
-							className="action-icons"
-						/>
-						<FontAwesomeIcon
-							icon={faCircleMinus}
-							onClick={() => decreaseQuantity(id)}
-							className={`action-icons ${
-								quantity === 0 ? "shake" : ""
-							}`}
-						/>
-						<FontAwesomeIcon
-							icon={faTrashCan}
-							onClick={() => deleteProduct(id)}
-							className="action-icons"
-						/>
-						{/* Buttons */}
-					</div>
+				<div
+					className="category"
+					style={{ ...styles.font2, color: "#000000" }}
+				>
+					Category: {category}
+				</div>
+				<div style={{ ...styles.font2, color: "#000000" }}>
+					Price:{" "}
+					{new Intl.NumberFormat("en-IN", {
+						currency: "INR",
+						style: "currency",
+					}).format(price)}
+				</div>
+				<div style={{ ...styles.font2, color: "#000000" }}>
+					Quantity: {quantity}
+				</div>
+				<div className="cart-item-actions">
+					<FontAwesomeIcon
+						icon={faCirclePlus}
+						onClick={() => increaseQuantity(id, products, setProducts)}
+						className="action-icons"
+					/>
+					<FontAwesomeIcon
+						icon={faCircleMinus}
+						onClick={() => decreaseQuantity(id, products, setProducts)}
+						className={`action-icons ${quantity === 0 ? "shake" : ""}`}
+					/>
+					<FontAwesomeIcon
+						icon={faTrashCan}
+						onClick={() => deleteProduct(id, products, setProducts)}
+						className="action-icons"
+					/>
+					{/* Buttons */}
 				</div>
 			</div>
-		);
-	}
-}
+		</div>
+	);
+};
+
+export default CartItem;
 
 const styles = {
 	image: {

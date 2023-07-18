@@ -10,6 +10,17 @@
 	--font2: "Open Sans", sans-serif;
 }
 
+html {
+	overflow: scroll;
+	overflow-x: hidden;
+}
+::-webkit-scrollbar {
+	display: none;
+}
+::-webkit-scrollbar-thumb {
+	display: none;
+}
+
 * {
 	margin: 0;
 	padding: 0;
