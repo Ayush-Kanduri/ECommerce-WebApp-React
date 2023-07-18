@@ -1,10 +1,11 @@
 const Navbar = (props) => {
 	const { faCartShopping, FontAwesomeIcon } = props.icons;
+	const { count } = props;
 	return (
 		<div style={styles.nav}>
 			<div style={styles.cartIconContainer}>
 				<FontAwesomeIcon icon={faCartShopping} style={styles.cartIcon} />
-				<span style={styles.cartCount}>3</span>
+				<span style={styles.cartCount}>{count}</span>
 			</div>
 		</div>
 	);

@@ -10,6 +10,9 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
+const getCartCount = (products) =>
+	products.reduce((count, product) => (count += product.quantity), 0);
+
 const increaseQuantity = (id, products, setProducts) => {
 	const prod = products.map((product) => {
 		if (product.id === id) product.quantity += 1;
@@ -39,7 +42,7 @@ const App = () => {
 	const [products, setProducts] = useState(state.products);
 	return (
 		<div className="App">
-			<Navbar icons={icons} />
+			<Navbar icons={icons} count={getCartCount(products)} />
 			<Cart
 				icons={icons}
 				deleteProduct={deleteProduct}
