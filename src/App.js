@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import ComponentLifeCycle from "./components/classComponents/ComponentLifeCycle";
 
 const getCartCount = (products) =>
 	products.reduce((count, product) => (count += product.quantity), 0);
@@ -59,6 +60,7 @@ const App = () => {
 				setProducts={setProducts}
 			/>
 			<Footer total={getCartTotal(products)} />
+			<ComponentLifeCycle />
 		</div>
 	);
 };
