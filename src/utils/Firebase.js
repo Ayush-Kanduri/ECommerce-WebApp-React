@@ -4,24 +4,20 @@ import {
 	collection,
 	doc,
 	getDoc,
-	// eslint-disable-next-line
 	onSnapshot,
 	query,
 	where,
 	getDocs,
-	// eslint-disable-next-line
 	orderBy,
 	updateDoc,
 	arrayUnion,
 	arrayRemove,
 	increment,
 	deleteDoc,
-	// eslint-disable-next-line
 	limit,
 	deleteField,
 } from "firebase/firestore";
 
-// eslint-disable-next-line
 let unsubscribe;
 
 export const addNewDoc = async (collectionName, object) => {
@@ -79,7 +75,7 @@ export const getQueryDocs = async (collectionName) => {
 		const collectionRef = collection(DB, collectionName);
 		const queryRef = query(
 			collectionRef,
-			where("quantity", "==", 5)
+			where("id", "==", 5)
 			// orderBy("title"),
 			// orderBy("brands", "desc"),
 			// limit(2)
@@ -107,7 +103,6 @@ export const updateOneDoc = async (collectionName, documentID) => {
 			id: increment(1),
 			"favorites.color": "Red",
 			brands: arrayUnion("huawei", "nokia"),
-			// eslint-disable-next-line
 			brands: arrayRemove("oneplus", "nokia"),
 			price: 5000,
 		});

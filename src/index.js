@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+// import App from "./App";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import ClassApp from "./components/classComponents/ClassApp";
 
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_apiKey,
@@ -18,6 +19,7 @@ const APP = initializeApp(firebaseConfig);
 const DB = getFirestore(APP);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+// root.render(<App />);
+root.render(<ClassApp />);
 
 export default DB;

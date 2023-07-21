@@ -10,20 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
-import {
-	addNewDoc,
-	getOneDoc,
-	getAllDocs,
-	getQueryDocs,
-	updateOneDoc,
-	deleteOneDoc,
-	deleteDocField,
-	// eslint-disable-next-line
-	documentListener,
-	collectionListener,
-} from "./utils/Firebase";
 
-// eslint-disable-next-line
 let unsubscribe = () => {};
 
 const getCartCount = (products) =>
@@ -60,109 +47,8 @@ const getCartTotal = (products) =>
 		0
 	);
 
-// eslint-disable-next-line
-const createDocument = async () => {
-	try {
-		let object = {
-			id: 2,
-			category: "Laptop",
-			title: "Apple Macbook Pro",
-			quantity: 5,
-			price: 2_45_000,
-			brands: ["dell", "acer", "lenovo"],
-			favorites: { food: "Pizza", color: "Blue", subject: "recess" },
-			image: "https://m.media-amazon.com/images/I/71WtFY52CeL._SX679_.jpg",
-		};
-		await addNewDoc("products", object);
-		// Add Product to the State
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const readDocument = async () => {
-	try {
-		const Data = await getOneDoc("products", "MoT2Qy0LLKcL6hmG5rDG");
-		console.log(`Fetched Document:`, Data);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const readAllDocuments = async () => {
-	try {
-		const Data = await getAllDocs("products");
-		console.log(`Fetched All Documents:`, Data);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const readFilteredDocuments = async () => {
-	try {
-		const Data = await getQueryDocs("products");
-		console.log(`Fetched Filtered Documents:`, Data);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const updateDocument = async () => {
-	try {
-		await updateOneDoc("products", "MoT2Qy0LLKcL6hmG5rDG");
-		console.log(`Document [MoT2Qy0LLKcL6hmG5rDG] Updated`);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const deleteDocument = async () => {
-	try {
-		await deleteOneDoc("products", "1234");
-		console.log(`Document [1234] Deleted`);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const deleteField = async () => {
-	try {
-		await deleteDocField("products", "MoT2Qy0LLKcL6hmG5rDG");
-		console.log(`Field Deleted inside the Document [MoT2Qy0LLKcL6hmG5rDG]`);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const activateOnSnapshotListener = () => {
-	try {
-		/** @documentListener **/
-		// unsubscribe = documentListener("products", "MoT2Qy0LLKcL6hmG5rDG");
-		// console.log(`Activated the Document OnSnapshot Listener!`);
-		/** @collectionListener **/
-		unsubscribe = collectionListener("products");
-		console.log(`Activated the Collection OnSnapshot Listener!`);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-// eslint-disable-next-line
-const deactivateOnSnapshotListener = () => {
-	try {
-		unsubscribe();
-		console.log(`Deactivated the OnSnapshot Listener!`);
-	} catch (error) {
-		console.log("Error:", error);
-	}
-};
-
 const App = () => {
 	const [products, setProducts] = useState(state.products);
-	useEffect(() => {
-		// activateOnSnapshotListener();
-		// deactivateOnSnapshotListener();
-		// return () => deactivateOnSnapshotListener();
-	}, []);
 	return (
 		<div className="App">
 			<Navbar icons={icons} count={getCartCount(products)} />

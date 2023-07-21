@@ -64,10 +64,41 @@ export default class ComponentLifeCycle extends Component {
 	render() {
 		console.log("RENDER");
 		return (
-			<div>
+			<div style={styles.app}>
 				{this.state.count}
-				<button onClick={this.handleClick}>Increase</button>
+				<button style={styles.button} onClick={this.handleClick}>
+					Increment Counter
+				</button>
 			</div>
 		);
 	}
 }
+
+const styles = {
+	app: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		paddingTop: "9rem",
+		alignItems: "center",
+		height: "100vh",
+		width: "100vw",
+		backgroundColor: "#282c34",
+		fontSize: "2rem",
+		gap: "1rem",
+		color: "white",
+	},
+	button: {
+		backgroundColor: "#000000",
+		border: "none",
+		borderRadius: 10,
+		color: "white",
+		padding: "15px 32px",
+		textAlign: "center",
+		textDecoration: "none",
+		display: "inline-block",
+		fontSize: "16px",
+		margin: "4px 2px",
+		cursor: "pointer",
+	},
+};
