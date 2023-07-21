@@ -21,6 +21,9 @@ import {
 	deleteField,
 } from "firebase/firestore";
 
+// eslint-disable-next-line
+let unsubscribe;
+
 export const addNewDoc = async (collectionName, object) => {
 	try {
 		const collectionRef = collection(DB, collectionName);
@@ -126,6 +129,43 @@ export const deleteDocField = async (collectionName, documentID) => {
 	try {
 		const documentRef = doc(DB, collectionName, documentID);
 		await updateDoc(documentRef, { image: deleteField() });
+	} catch (error) {
+		console.log("Error:", error);
+	}
+};
+
+export const documentListener = (collectionName, documentID) => {
+	try {
+		const documentRef = doc(DB, collectionName, documentID);
+		unsubscribe = onSnapshot(
+			documentRef,
+			(doc) => console.log(`Listening to the Document [${doc.id}]`),
+			(error) => {
+				console.log("Encountered an Error! Detaching the Listener...");
+				console.log(error);
+			}
+		);
+		return unsubscribe;
+	} catch (error) {
+		console.log("Error:", error);
+	}
+};
+
+export const collectionListener = (collectionName) => {
+	try {
+		const collectionRef = collection(DB, collectionName);
+		unsubscribe = onSnapshot(
+			collectionRef,
+			(snapshot) =>
+				snapshot.forEach((doc) =>
+					console.log(`Listening to the Document [${doc.id}]`)
+				),
+			(error) => {
+				console.log("Encountered an Error! Detaching the Listener...");
+				console.log(error);
+			}
+		);
+		return unsubscribe;
 	} catch (error) {
 		console.log("Error:", error);
 	}

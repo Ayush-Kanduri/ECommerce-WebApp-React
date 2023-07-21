@@ -9,7 +9,7 @@ import {
 	faCartShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	addNewDoc,
 	getOneDoc,
@@ -18,7 +18,13 @@ import {
 	updateOneDoc,
 	deleteOneDoc,
 	deleteDocField,
+	// eslint-disable-next-line
+	documentListener,
+	collectionListener,
 } from "./utils/Firebase";
+
+// eslint-disable-next-line
+let unsubscribe = () => {};
 
 const getCartCount = (products) =>
 	products.reduce((count, product) => (count += product.quantity), 0);
@@ -127,9 +133,36 @@ const deleteField = async () => {
 		console.log("Error:", error);
 	}
 };
+// eslint-disable-next-line
+const activateOnSnapshotListener = () => {
+	try {
+		/** @documentListener **/
+		// unsubscribe = documentListener("products", "MoT2Qy0LLKcL6hmG5rDG");
+		// console.log(`Activated the Document OnSnapshot Listener!`);
+		/** @collectionListener **/
+		unsubscribe = collectionListener("products");
+		console.log(`Activated the Collection OnSnapshot Listener!`);
+	} catch (error) {
+		console.log("Error:", error);
+	}
+};
+// eslint-disable-next-line
+const deactivateOnSnapshotListener = () => {
+	try {
+		unsubscribe();
+		console.log(`Deactivated the OnSnapshot Listener!`);
+	} catch (error) {
+		console.log("Error:", error);
+	}
+};
 
 const App = () => {
 	const [products, setProducts] = useState(state.products);
+	useEffect(() => {
+		// activateOnSnapshotListener();
+		// deactivateOnSnapshotListener();
+		// return () => deactivateOnSnapshotListener();
+	}, []);
 	return (
 		<div className="App">
 			<Navbar icons={icons} count={getCartCount(products)} />
