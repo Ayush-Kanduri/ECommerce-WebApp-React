@@ -1,8 +1,9 @@
-import React, { StrictMode } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_apiKey,
@@ -13,11 +14,10 @@ const firebaseConfig = {
 	appId: process.env.REACT_APP_appId,
 };
 
-initializeApp(firebaseConfig);
+const APP = initializeApp(firebaseConfig);
+const DB = getFirestore(APP);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-	<StrictMode>
-		<App />
-	</StrictMode>
-);
+root.render(<App />);
+
+export default DB;
